@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Button } from "@relume_io/relume-ui";
-import { RxChevronRight } from "react-icons/rx";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const topFeatures = [
   {
@@ -44,21 +44,34 @@ const topFeatures = [
 ];
 
 const Layout238: React.FC = () => {
-  return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
-      <div className="container">
-      <div className="mb-16 text-center md:mb-20 lg:mb-24">
-  <div className="mx-auto w-full max-w-5xl px-4">
-    <h2 className="text-4xl leading-tight font-bold md:text-5xl lg:text-6xl text-white">
-      Discover the groundbreaking features of GenerativeIDE for offline AI development.
-    </h2>
-  </div>
-</div>
+  const [ref, inView] = useInView({ triggerOnce: true });
 
-        <div className="grid grid-cols-1 items-start justify-center gap-y-12 md:grid-cols-2 md:gap-x-10 md:gap-y-14 lg:grid-cols-3 lg:gap-x-12">
-          {topFeatures.map(({ badge, title, desc, button }, idx) => (
-            <div
+  return (
+    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28 text-white">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="mb-16 text-center md:mb-20 lg:mb-24"
+        >
+          <div className="mx-auto w-full max-w-5xl px-4">
+            <h2 className="text-4xl leading-tight font-bold md:text-5xl lg:text-6xl text-white">
+              Discover the groundbreaking features of GenerativeIDE for offline AI development.
+            </h2>
+          </div>
+        </motion.div>
+
+        <div
+          ref={ref}
+          className="grid grid-cols-1 items-start justify-center gap-y-12 md:grid-cols-2 md:gap-x-10 md:gap-y-14 lg:grid-cols-3 lg:gap-x-12"
+        >
+          {topFeatures.map(({ badge, title, desc }, idx) => (
+            <motion.div
               key={idx}
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: idx * 0.2, duration: 0.5 }}
               className="flex flex-col items-start text-left bg-[#1a1a1a] p-6 rounded-lg shadow-md"
             >
               <span className="mb-3 inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
@@ -66,7 +79,7 @@ const Layout238: React.FC = () => {
               </span>
               <h3 className="mb-3 text-xl font-semibold text-white">{title}</h3>
               <p className="text-white/70 text-sm mb-4">{desc}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,14 +1,24 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const Contact25: React.FC = () => {
+  const [ref, inView] = useInView({ triggerOnce: true });
+
   return (
     <section
       id="relume"
-      className=" px-[5%] py-16 md:py-24 lg:py-28"
+      className="px-[5%] py-16 md:py-24 lg:py-28"
     >
-      <div className="container text-center">
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+        className="container text-center"
+      >
         <h2 className="mb-6 text-5xl font-bold md:text-7xl lg:text-8xl">
           Need More Help?
         </h2>
@@ -23,7 +33,7 @@ const Contact25: React.FC = () => {
             Email Support
           </a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

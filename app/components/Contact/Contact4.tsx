@@ -1,14 +1,24 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const Contact4: React.FC = () => {
+  const [ref, inView] = useInView({ triggerOnce: true });
+
   return (
     <section
       id="relume"
       className="mt-[60px] px-[5%] py-16 md:py-24 lg:py-28"
     >
-      <div className="container text-center">
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+        className="container text-center"
+      >
         <h2 className="mb-6 text-5xl font-bold md:text-7xl lg:text-8xl">
           We're Here to Help
         </h2>
@@ -60,7 +70,7 @@ const Contact4: React.FC = () => {
             Send Message
           </button>
         </form>
-      </div>
+      </motion.div>
     </section>
   );
 };
